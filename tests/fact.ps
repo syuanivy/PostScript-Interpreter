@@ -1,0 +1,14 @@
+/fact {
+    1 dict begin                % enter local scope
+	/n exch def             % save arg as n
+	n 0 eq                  % if n==0
+	{1}                     % return 1 by leaving on the stack
+	{n n 1 sub fact mul}    % n * fact(n-1)
+	ifelse
+    end                         % exit local scope
+} def
+
+0 fact ==
+1 fact ==
+2 fact ==
+5 fact ==
