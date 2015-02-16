@@ -14,9 +14,9 @@ public class PS {
 
 	public static void main(String[] args) throws Exception {
 		boolean trace = false;
-		if ( args.length>0 ) {
+		if ( args.length>0 ) { // .ps file
 			int a = 0;
-			if ( args[a].equals("-trace") ) {
+			if ( args[a].equals("-trace") ) { // -trace?? what does a count?
 				trace = true;
 				a++;
 			}

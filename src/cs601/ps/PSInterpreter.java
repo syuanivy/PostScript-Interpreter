@@ -5,37 +5,8 @@ import cs601.ps.objects.PSDictionary;
 import cs601.ps.objects.PSObject;
 import cs601.ps.objects.PSOperatorName;
 import cs601.ps.objects.PSUndefined;
-import cs601.ps.objects.PSValue;
-import cs601.ps.ops._if;
-import cs601.ps.ops.add;
-import cs601.ps.ops.begin;
-import cs601.ps.ops.cvs;
-import cs601.ps.ops.def;
-import cs601.ps.ops.dict;
-import cs601.ps.ops.div;
-import cs601.ps.ops.dup;
-import cs601.ps.ops.end;
-import cs601.ps.ops.eq;
-import cs601.ps.ops.exch;
-import cs601.ps.ops.findfont;
-import cs601.ps.ops.forOp;
-import cs601.ps.ops.grestore;
-import cs601.ps.ops.gsave;
-import cs601.ps.ops.ifelse;
-import cs601.ps.ops.lineto;
-import cs601.ps.ops.load;
-import cs601.ps.ops.moveto;
-import cs601.ps.ops.mul;
-import cs601.ps.ops.repeat;
-import cs601.ps.ops.rmoveto;
-import cs601.ps.ops.scale;
-import cs601.ps.ops.scalefont;
-import cs601.ps.ops.setfont;
-import cs601.ps.ops.setrgbcolor;
-import cs601.ps.ops.show;
-import cs601.ps.ops.showpage;
-import cs601.ps.ops.stroke;
-import cs601.ps.ops.sub;
+import cs601.ps.objects.PSValue; // why import this??
+import cs601.ps.ops.*;
 import cs601.ps.parser.EPSLexer;
 import cs601.ps.parser.EPSParser;
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -53,7 +24,7 @@ public class PSInterpreter {
 	public GraphicsState gstate = new GraphicsState(this);
 
 	/** Holds dictionary scopes */
-	public Stack<PSDictionary> dictionaryStack = new Stack<>();
+	public Stack<PSDictionary> dictionaryStack = new Stack<PSDictionary>();
 
 	/** Default system dictionary with predefined operators, values */
 	public PSDictionary systemdict = new PSDictionary();
@@ -62,9 +33,9 @@ public class PSInterpreter {
 	public PSDictionary userdict = new PSDictionary();
 
 	/** Hold operand objects; must be value not operator. */
-	public Stack<PSObject> operandStack = new Stack<>();
+	public Stack<PSObject> operandStack = new Stack<PSObject>();
 
-	public Stack<GraphicsState> gstateStack = new Stack<>();
+	public Stack<GraphicsState> gstateStack = new Stack<GraphicsState>();
 
 	public String fileName;
 
@@ -145,17 +116,27 @@ public class PSInterpreter {
 
 	/** Push a postscript object onto the operand stack */
 	public void push(PSObject operand) {
+		operandStack.push(operand);
 	}
 
     /** pop an object off of the operand stack and return it */
 	public PSObject pop() {
-		return null;
+		if(operandStack.isEmpty())
+			return null;
+		else
+			return operandStack.pop();
 	}
 
     /** Pop a value off the stack and print it. If an operator, print its class name
      *  like lineto or def instead.
      */
 	public void popAndPrint() {
+		PSObject value= operandStack.pop();
+		System.out.println(value);   // how to print a ps object
+		if(value instanceof PSOperator){
+			System.out.println(value);  //? how to print class name
+		}
+
 	}
 
 	public PSArray popAsArray(int n) {
@@ -171,13 +152,14 @@ public class PSInterpreter {
 	}
 
 	public void define(String key, PSObject value) {
+		//how to define?
 	}
 
 	/** Lookup a key in stack of dictionaries, top to bottom.
 	 *  Return PSUndefined(key) if you can't find it
 	 */
 	public PSObject lookup(String key) {
-		return new PSUndefined(key);
+		return dictionaryStack.peek().get(key);
 	}
 
 	public void parseAndExecute() {

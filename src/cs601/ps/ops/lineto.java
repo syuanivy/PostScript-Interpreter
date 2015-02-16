@@ -8,8 +8,6 @@ import cs601.ps.objects.PSString;
  */
 public class lineto extends PSOperator {
     public void execute(PSInterpreter interpreter) {
-        interpreter.push(
-                new PSString(interpreter.pop().toString())
-        );
+
     }
 }
