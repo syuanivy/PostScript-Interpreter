@@ -149,6 +149,7 @@ public class PSInterpreter {
 
     /** pop an object off of the operand stack and return it */
 	public PSObject pop() {
+		return null;
 	}
 
     /** Pop a value off the stack and print it. If an operator, print its class name
@@ -176,6 +177,7 @@ public class PSInterpreter {
 	 *  Return PSUndefined(key) if you can't find it
 	 */
 	public PSObject lookup(String key) {
+		return new PSUndefined(key);
 	}
 
 	public void parseAndExecute() {

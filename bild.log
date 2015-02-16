@@ -1,0 +1,4 @@
+[02/15/15 17:04:40 <module> ./bild.py:14 bilder.py:123] platform=linux2
+[02/15/15 17:04:40 <module> ./bild.py:14 bilder.py:124] jdk={}
+[02/15/15 17:04:40 antlr4 ./bild.py:18 bilder.py:474] java org.antlr.v4.Tool -o /home/ivy/Dropbox/cs652/syuanivy-ps/src/cs601/ps/parser -no-listener /home/ivy/Dropbox/cs652/syuanivy-ps/src/cs601/ps/parser/EPS.g4
+[02/15/15 17:04:40 antlr4 ./bild.py:18 bilder.py:474] Error: Could not find or load main class org.antlr.v4.Tool
