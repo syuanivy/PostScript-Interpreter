@@ -19,7 +19,7 @@ file : exec ;
 /** Immediate execution mode; e.g., "40 60 add 2 div" executes right away. */
 exec returns [int n = 0]
     :   (   instruction {interpreter.execute($instruction.o); $n++;}
-        |   '=='        {...}
+        |   '=='        {interpreter.popAndPrint();}
         )*
     ;
 
@@ -29,7 +29,7 @@ instruction returns [PSObject o]
     ;
 
 value returns [PSObject v]
-    :   INT             {...}
+    :   INT             {$v=new PSInt($INT.text);}
     |   STRING          {$v=new PSString($STRING.text);}
     |   REAL            {$v=new PSReal($REAL.text);}
     |   SYM             {$v=new PSNameLiteral($SYM.text);}

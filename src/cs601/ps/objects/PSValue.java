@@ -15,7 +15,7 @@ public abstract class PSValue extends PSObject {
 
 	public void execute(PSInterpreter interpreter) {
 		// simple kind of object, just push
-		interpreter.push(this);
+		interpreter.push(this); // operandstack.push(this)
 	}
 
 	public String toString() {

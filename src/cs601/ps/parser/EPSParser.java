@@ -172,7 +172,7 @@ public class EPSParser extends Parser {
 					{
 					setState(17);
 					match(T__0);
-					//...
+					interpreter.popAndPrint();
 					}
 					break;
 				default:
@@ -256,6 +256,7 @@ public class EPSParser extends Parser {
 
 	public static class ValueContext extends ParserRuleContext {
 		public PSObject v;
+		public Token INT;
 		public Token STRING;
 		public Token REAL;
 		public Token SYM;
@@ -287,8 +288,8 @@ public class EPSParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(31);
-				match(INT);
-				//...
+				((ValueContext)_localctx).INT = match(INT);
+				((ValueContext)_localctx).v = new PSInt((((ValueContext)_localctx).INT!=null?((ValueContext)_localctx).INT.getText():null));
 				}
 				break;
 			case STRING:

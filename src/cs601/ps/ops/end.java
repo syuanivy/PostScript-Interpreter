@@ -8,6 +8,6 @@ import cs601.ps.objects.PSString;
  */
 public class end extends PSOperator {
     public void execute(PSInterpreter interpreter) {
-
+        interpreter.dictionaryStack.pop();
     }
 }

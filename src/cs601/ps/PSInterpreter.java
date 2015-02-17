@@ -84,6 +84,7 @@ public class PSInterpreter {
 		systemdict.put("gsave", new gsave());
 		systemdict.put("grestore", new grestore());
 		systemdict.put("setrgbcolor", new setrgbcolor());
+		systemdict.put("print", new print());
 	}
 
 	/** From PS book:
@@ -121,10 +122,10 @@ public class PSInterpreter {
 
     /** pop an object off of the operand stack and return it */
 	public PSObject pop() {
-		if(operandStack.isEmpty())
-			return null;
-		else
+		if(!operandStack.isEmpty())
 			return operandStack.pop();
+		else
+			return null;
 	}
 
     /** Pop a value off the stack and print it. If an operator, print its class name
@@ -132,11 +133,10 @@ public class PSInterpreter {
      */
 	public void popAndPrint() {
 		PSObject value= operandStack.pop();
-		System.out.println(value);   // how to print a ps object
-		if(value instanceof PSOperator){
-			System.out.println(value);  //? how to print class name
-		}
-
+		if(value instanceof PSOperator)
+			System.out.println(userdict.findKeyFor(value));
+		else
+			System.out.println(value.toString());
 	}
 
 	public PSArray popAsArray(int n) {
@@ -152,14 +152,30 @@ public class PSInterpreter {
 	}
 
 	public void define(String key, PSObject value) {
-		//how to define?
+		dictionaryStack.peek().put(key, value);
 	}
 
 	/** Lookup a key in stack of dictionaries, top to bottom.
 	 *  Return PSUndefined(key) if you can't find it
 	 */
 	public PSObject lookup(String key) {
-		return dictionaryStack.peek().get(key);
+	    Stack<PSDictionary> tempStack = new Stack<PSDictionary>();
+		PSObject o = new PSUndefined(key);
+		while (!dictionaryStack.isEmpty()) {
+			PSDictionary currentDict = dictionaryStack.peek();
+			if(currentDict.getJavaValue().containsKey(key)){
+				o = currentDict.get(key);
+				break;
+			}
+
+			else
+				tempStack.push(dictionaryStack.pop());
+		}
+		while(!tempStack.isEmpty()){
+			dictionaryStack.push(tempStack.pop());
+		}
+
+		return o;
 	}
 
 	public void parseAndExecute() {
