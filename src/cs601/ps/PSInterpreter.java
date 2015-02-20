@@ -84,7 +84,6 @@ public class PSInterpreter {
 		systemdict.put("gsave", new gsave());
 		systemdict.put("grestore", new grestore());
 		systemdict.put("setrgbcolor", new setrgbcolor());
-		systemdict.put("print", new print()); // still does not print dowhile.ps
 	}
 
 	/** From PS book:
